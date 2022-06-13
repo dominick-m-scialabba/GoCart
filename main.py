@@ -25,8 +25,26 @@ def update_graph(data, figure, canvas):
 # GUI Initialization ###################################################################################################
 ENTER_KEY_1 = 'special 16777220'
 ENTER_KEY_2 = 'special 16777221'
+
+font = 'roman'
+text_color_1 = '#ffffff'
+text_color_2 = '#000000'
+background_color_1 = '#212121'
+padding_1 = 2
+border_width_1 = 2
+
+menu_contents = [['MAIN'], ['BATTERY'], ['MOTORS'], ['SETTINGS']]
 table_contents = []
-layout =    [[GUI.Table(
+
+layout =    [[GUI.Menu(
+                menu_definition = menu_contents,
+                background_color = '#212121',
+                text_color = "black",
+                font = None,
+                pad = padding_1,
+                key = '-MENU-')],
+
+            [GUI.Table(
                 headings = ['Number', 'X', 'Y'],
                 values = table_contents,
                 expand_x = True,
@@ -35,27 +53,51 @@ layout =    [[GUI.Table(
                 key = '-TABLE-')],
 
             [GUI.Input(
+                default_text = "X Values",
+                size = (None, None),
+                justification = None,
+                background_color = None,
+                text_color = None,
+                font = None,
+                border_width = None,
+                key = '-X-INPUT-',
+                pad = padding_1,
                 expand_x = True,
-                expand_y = False,
-                key = '-X-INPUT-'),
+                expand_y = False),
 
             GUI.Input(
+                default_text = "Y Values",
+                size = (None, None),
+                justification = None,
+                background_color = None,
+                text_color = None,
+                font = None,
+                border_width = None,
+                key = '-Y-INPUT-',
+                pad = padding_1,
                 expand_x = True,
-                expand_y = False,
-                key = '-Y-INPUT-'),
+                expand_y = False),
 
             GUI.Button(
-                'SUBMIT',
+                button_text = "SUBMIT",
+                border_width = 2,
+                size = (None, None),
+                auto_size_button = None,
+                button_color = '#212121',
+                highlight_colors = None,
+                mouseover_colors = (None, None),
+                font = None,
+                pad = padding_1,
+                key = None,
                 expand_x = True,
-                expand_y = False,
-                key = '-SUBMIT-')],
+                expand_y = False)],
 
             [GUI.Canvas(
                 expand_x = True,
                 expand_y = True,
                 key = '-GRAPH-')]]
 
-GUI.theme('DarkBlue')
+GUI.theme('Dark')
 window = GUI.Window('Home', layout, resizable = True, finalize = True, return_keyboard_events = True)
 
 # Plot initialization
