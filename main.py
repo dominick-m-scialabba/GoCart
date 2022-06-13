@@ -7,24 +7,19 @@
 
 # Libraries ############################################################################################################
 import numpy as NP
-# import board
-# import busio
-# import adafruit_ads11x5.ads1115 as ADC
-# from adafruit_ads11x5.analog_in import AnalogIn
-
 import PySimpleGUI as GUI
 import matplotlib as MAT
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 
 # GUI Methods ##########################################################################################################
-def update_graph(data, figure, figure_canvas):
+def update_graph(data, figure, canvas):
     axes = figure.axes
-    x = [i[1] for i in  data]
-    y = [i[2] for i in  data]
+    x = [i[1] for i in data]
+    y = [i[2] for i in data]
     axes[0].plot(x, y, 'r-')
-    figure_canvas.draw()
-    figure_canvas.get_tk_widget().pack(side = 'top', fill = 'both', expand = True)
+    canvas.draw()
+    canvas.get_tk_widget().pack(side = 'top', fill = 'both', expand = True)
 
 
 # GUI Initialization ###################################################################################################
@@ -90,10 +85,9 @@ while True:
         if active_element.key == '-Y-INPUT-':
             window['-SUBMIT-'].Click()
             window['-X-INPUT-'].SetFocus()
-        if active_element is not None and active_element.Type == GUI.ELEM_TYPE_BUTTON:  # if it's a button element, click it
+        if active_element is not None and active_element.Type == GUI.ELEM_TYPE_BUTTON:  # click if it's a button element
             active_element.Click()
             window['-X-INPUT-'].SetFocus()
-
 
 
 window.close()

@@ -12,6 +12,8 @@ import time as TIME
 # import busio as BUSIO
 # import adafruit_ads11x5.ads1115 as ADC
 # from adafruit_ads11x5.analog_in import AnalogIn
+
+# Other Program Elements ###############################################################################################
 import HMI
 
 
