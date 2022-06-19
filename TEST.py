@@ -14,7 +14,7 @@ layout = [[sg.Text('SOME INFO', expand_x=True, expand_y=True), sg.Column(column_
 
 window = sg.Window('TEST LAYOUT', layout)
 
-while True:             # Event Loop
+while True:
     event, values = window.read()
     print(event, values)
     if event == sg.WIN_CLOSED or event == 'Exit':
