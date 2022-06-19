@@ -6,37 +6,36 @@
 
 
 # Libraries ############################################################################################################
-import numpy as NP
 import time as TIME
-# import board as BOARD
-# import busio as BUSIO
-# import adafruit_ads11x5.ads1115 as ADC
-# from adafruit_ads11x5.analog_in import AnalogIn
+import board as BOARD
+import busio as BUSIO
+import adafruit_ads11x5.ads1115 as ADC
+from adafruit_ads11x5.analog_in import AnalogIn
 
-# Other Program Elements ###############################################################################################
+# Program Elements #####################################################################################################
 import HMI
 
 
-# ADC and Board Initialization
+# ADC and Board Initialization #########################################################################################
 i2c = BUSIO.I2C(BOARD.SCL, BOARD.SDA)
 adc = ADC.ADS1115(i2c)
 
 
-# ADC Parameters
-adc_pins = ['P0', 'P1']
-adc_sample_rate = 100               # in hertz
+# ADC Parameters #######################################################################################################
+adc_pins = ['P0', 'P1']         # raspberry pi pins to which ADC connects
+adc_sample_rate = 100           # in hertz
 adc.gain = 1                    # multiplicative factor, 2/3, 1, 2, 4, 8, 16
 adc.mode = Mode.SINGLE          # ADC report mode, SINGLE for multi-channel input, CONTINUOUS is faster for one channel
 
 
-# ADC Channel Initialization
+# ADC Channel Initialization ###########################################################################################
 channel_0 = AnalogIn(adc, ADC.adc_pins[0])
 channel_1 = AnalogIn(adc, ADC.adc_pins[1])
 channel_2 = AnalogIn(adc, ADC.adc_pins[2])
 channel_3 = AnalogIn(adc, ADC.adc_pins[3])
 
 
-# ADC Data Reading
+# ADC Data Reading #####################################################################################################
 while True:
     # Record Current Throttle and Brake Voltage
     throttle_voltage = channel_0.voltage
