@@ -7,7 +7,7 @@
 
 # Libraries ############################################################################################################
 import PySimpleGUI as GUI
-import matplotlib as MAT
+import matplotlib.pyplot as MAT
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 
@@ -35,6 +35,22 @@ def hor_data_block(name, data, decimal_places, units):
     data_block_layout = [[GUI.Text(name, expand_x=True, expand_y=True, size=(10, 1), font='Calibri 12', background_color='DarkBlue'),
                           GUI.Text(data_string.format(data=data, decimal_places=decimal_places, units=units), expand_x=True, expand_y=True, font='Calibri 18', size=(10, 1))]]
     return GUI.Column(data_block_layout, expand_x=True, expand_y=True, background_color='Gray', pad=(0, 0))
+
+
+def draw_plot(x_data, y_data):
+    fig = MAT.figure(facecolor='k', edgecolor='w')
+    ax = MAT.axes(facecolor='k')
+    MAT.tick_params(axis='both', which='major', colors='w')
+    ax.spines['bottom'].set_color('w')
+    ax.spines['left'].set_color('w')
+    MAT.xlabel('Time', fontsize=10, color='w')
+    MAT.ylabel('Value', fontsize=10, color='w')
+    MAT.plot(x_data, y_data, 'r-')
+    MAT.grid(color='#2a2a2a', linewidth=1)
+    fig_canvas = FigureCanvasTkAgg(fig, window['PLOT CANVAS'].TKCanvas)
+    fig_canvas.draw()
+    fig_canvas.get_tk_widget().pack(fill='both', expand=True)
+    return fig_canvas
 
 
 def update_plot_fields():
@@ -92,15 +108,27 @@ motors_column_layout_2 = [[GUI.Text('Motor #2', expand_x=True, expand_y=True, si
 motors_layout = [[GUI.Column(motors_column_layout_1, expand_x=True, expand_y=True, background_color='Gray', pad=(0, 0)),
                   GUI.Column(motors_column_layout_2, expand_x=True, expand_y=True, background_color='Gray', pad=(0, 0))]]
 
-plots_layout = [[GUI.Text('SOME INFO', size=(10, 10))]]
+plots_column_layout = [[GUI.Checkbox('Battery Voltage', size=(15, 1), text_color='Red', background_color='Black', key='BATTERY VOLTAGE CHECKBOX', expand_y=True,)],
+                       [GUI.Checkbox('Battery Percentage', size=(15, 1), text_color='Orange', background_color='Black', key='BATTERY PERCENTAGE CHECKBOX', expand_y=True,)],
+                       [GUI.Checkbox('Current', size=(15, 1), text_color='Yellow', background_color='Black', key='CURRENT CHECKBOX', expand_y=True,)],
+                       [GUI.Checkbox('Power', size=(15, 1), text_color='Green', background_color='Black', key='POWER CHECKBOX', expand_y=True,)],
+                       [GUI.Checkbox('Power Consumed', size=(15, 1), text_color='Blue', background_color='Black', key='POWER CONSUMED CHECKBOX', expand_y=True,)],
+                       [GUI.Checkbox('Power Generated', size=(15, 1), text_color='Indigo', background_color='Black', key='POWER GENERATED CHECKBOX', expand_y=True,)],
+                       [GUI.Checkbox('Throttle', size=(15, 1), text_color='Purple', background_color='Black', key='THROTTLE CHECKBOX', expand_y=True,)],
+                       [GUI.Checkbox('Brake', size=(15, 1), text_color='Cyan', background_color='Black', key='BRAKE CHECKBOX', expand_y=True,)]]
+
+plots_layout = [[GUI.Column(plots_column_layout, expand_x=True, expand_y=True, background_color='Gray', pad=(0, 0)), GUI.Canvas(key='PLOT CANVAS')]]
+
+IO_layout = [[GUI.Text('SOME INFO', size=(10, 10))]]
 
 settings_layout = [[GUI.Text('SOME INFO', size=(10, 10))]]
 
-tab_layout = [[GUI.Tab('           HOME           ', layout=home_layout, background_color='Gray', expand_x=True),
-               GUI.Tab('           BATTERY           ', layout=battery_layout, background_color='Gray', expand_x=True),
-               GUI.Tab('           MOTORS           ', layout=motors_layout, background_color='Gray', expand_x=True),
-               GUI.Tab('           PLOTS           ', layout=plots_layout, background_color='Gray', expand_x=True),
-               GUI.Tab('           SETTINGS           ', layout=settings_layout, background_color='Gray', expand_x=True)]]
+tab_layout = [[GUI.Tab('         HOME         ', layout=home_layout, background_color='Gray', expand_x=True),
+               GUI.Tab('         BATTERY         ', layout=battery_layout, background_color='Gray', expand_x=True),
+               GUI.Tab('         MOTORS         ', layout=motors_layout, background_color='Gray', expand_x=True),
+               GUI.Tab('         PLOTS         ', layout=plots_layout, background_color='Gray', expand_x=True),
+               GUI.Tab('         I/O         ', layout=IO_layout, background_color='Gray', expand_x=True),
+               GUI.Tab('         SETTINGS         ', layout=settings_layout, background_color='Gray', expand_x=True)]]
 
 window_layout = [[GUI.TabGroup(layout=tab_layout,
                                tab_location='topleft',
@@ -115,14 +143,25 @@ window_layout = [[GUI.TabGroup(layout=tab_layout,
                                tab_border_width=2)]]
 
 
+# Plot Initialization ##################################################################################################
+time_data = [-5, -4, -3, -2, -1, 0]
+variable_data = [2, 4, 3, 5, 4, 6]
+
+
 # Window Initialization ################################################################################################
-window = GUI.Window('HOME', layout=window_layout, size=display_resolution)
+window = GUI.Window('HOME', layout=window_layout, size=display_resolution, finalize=True)
+draw_plot(time_data, variable_data)
+
+
 
 
 # Event Loop ###########################################################################################################
 while True:
     event, values = window.read()
     print(event, values)
+
+
+
     if event == GUI.WIN_CLOSED or event == 'Exit':
         break
 
