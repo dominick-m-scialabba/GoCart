@@ -1,23 +1,22 @@
 # GoCart
-This repository will hold code that will manage the functions and feedback of an electric go cart. This code will interpret switch-panel, touch-panel, VESC, and ADC inputs for the go cart as well as process those values and display them via a GUI and a Smarti Pi. 
+This repository will hold code that will manage the functions and feedback of an electric go cart. This code will interpret switch-panel, touch-panel, and VESC inputs and outputs for the go cart as well as process and calculate values and display them via a GUI and a Smarti Pi touchscreen. 
 
 # INPUTS & OUTPUTS
-- accelerator (AI)
-- brake (AI)
+- accelerator/brake (AI)
 - main power switch (DI)
 - drive power switch (DI)
 - forward/reverse switch (DI)
+- headlights switch (DI)
+- horn switch (DI)
+- RGB switch outputs (3xDO)
 
-- VESC DATA (UART)
+- VESC DATA (UART or CAN)
+  - speed
+  - disatnce
   - battery voltage
-  - current x 2
+  - battery current
+  - motor current x 2
   - power x 2
   - RPM x 2
   - mAh used x 2
   - mAh generated x 2
-- VESC CONTROL (UART)
-  - throttle
-  - direction
-  - current max (?)
-  - brake current max (?)
-  - RPM max (?)
